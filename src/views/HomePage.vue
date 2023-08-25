@@ -1,17 +1,5 @@
 <template>
-  <NavigationBar></NavigationBar>
-  <v-main class="mt-4">
-  <v-container class="main-content"> 
-    <v-row>
-      <v-col cols="8">
-        <LeafletMap></LeafletMap>
-      </v-col>
-      <v-col cols="4">
-        <MapMenu></MapMenu>
-      </v-col>
-    </v-row>
-  </v-container>
-</v-main>
+    <NavigationBar></NavigationBar>
 </template>
 
 <script lang="ts">
@@ -32,7 +20,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  .main-content{
-    border: 1px solid black;
-  }
+.main-content{
+  border: 1px solid black;
+}
 </style>
