@@ -1,39 +1,37 @@
 <template>
-<div>
-    <label :for="id">{{ label }}</label>
-    <input 
-    type="text" 
-    :id="id"
-    v-model="selectedDate" 
-    />
-</div>
+        <v-text-field
+            label="Append inner"
+            append-inner-icon="mdi-map-marker"
+            variant="outlined"
+          ></v-text-field>
+
 </template>
 
 <script>
 export default {
-props: {
-    id: {
-    type: String,
-    required: true
-    },
-    label: {
-    type: String,
-    default: ''
-    },
-    value: {
-    type: String,
-    default: ''
-    }
-},
+// props: {
+//     // id: {
+//     // type: String,
+//     // required: true
+//     // },
+//     // label: {
+//     // type: String,
+//     // default: ''
+//     // },
+//     // value: {
+//     // type: String,
+//     // default: ''
+//     // }
+// },
 data() {
     return {
         selectedDate: null
     };
 },
 watch: {
-    selectedDate(newVal) {
-    this.$emit('input', newVal);
-    }
+    // selectedDate(newVal) {
+    // this.$emit('input', newVal);
+    // }
 }, 
 mounted(){
    
@@ -43,7 +41,5 @@ mounted(){
 </script>
 
 <style>
-input{
-    border: 1px solid black;
-}
+
 </style>

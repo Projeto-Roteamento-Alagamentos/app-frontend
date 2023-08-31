@@ -1,6 +1,15 @@
 <template>
   <div class="map-menu">
+    
+    <v-card class="inputs"> 
+      <v-card-text>
 
+        <SearchBar></SearchBar>
+        <SearchBar></SearchBar>
+    
+      </v-card-text>
+
+    </v-card>
   </div>
 </template>
 
@@ -28,12 +37,36 @@ export default {
 
   .map-menu {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 30px;
     z-index: 900;
-    padding: 50px;
+    /* left: 10px; */
     margin-top: 20px;
-    background-color: black;
+    /*  background-color: black; */
+    padding: 0px 50px 0px 50px;
+    width: 100%;
+  }
+
+  .inputs{
+    max-width: 400px;
+    background-color: rgb(35, 110, 175);
+    padding: 10px;
+    border-radius: 10px;
+
+  }
+
+  @media (max-width: 700px) {
+
+  .inputs{
+      max-width: 100%;
+      background-color: rgb(35, 110, 175);
+      padding: 10px;
+      border-radius: 10px;
+  }
+
+  .map-menu{
+    left: 0px;
+  }
+    
   }
 
 </style>
