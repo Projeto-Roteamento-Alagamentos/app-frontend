@@ -1,6 +1,6 @@
 <template>
         <v-text-field
-            label="Append inner"
+            label="Appeddnd inner"
             append-inner-icon="mdi-map-marker"
             variant="outlined"
           ></v-text-field>
