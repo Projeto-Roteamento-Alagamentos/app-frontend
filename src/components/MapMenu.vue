@@ -56,16 +56,16 @@ export default {
 
   @media (max-width: 700px) {
 
-  .inputs{
-      max-width: 100%;
-      background-color: rgb(35, 110, 175);
-      padding: 10px;
-      border-radius: 10px;
-  }
+    .inputs{
+        max-width: 100%;
+        background-color: rgb(35, 110, 175);
+        padding: 10px;
+        border-radius: 10px;
+    }
 
-  .map-menu{
-    left: 0px;
-  }
+    .map-menu{
+      left: 0px;
+    }
     
   }
 
