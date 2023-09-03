@@ -4,8 +4,8 @@
     <v-card class="inputs"> 
       <v-card-text>
 
-        <SearchBar></SearchBar>
-        <SearchBar></SearchBar>
+        <SearchBar label="Digite o endereço"></SearchBar>
+        <SearchBar label="Digite o endereço"></SearchBar>
     
       </v-card-text>
 
@@ -23,7 +23,7 @@ export default {
     return {
       searchQuery: '',
       startDate: null,
-      endDate: null
+      endDate: null,
     };
   },
   methods: {
