@@ -1,11 +1,11 @@
 <template>
   <div class="map-menu">
-    
     <v-card class="inputs"> 
       <v-card-text>
-
-        <SearchBar label="Digite o endereço"></SearchBar>
-        <SearchBar label="Digite o endereço"></SearchBar>
+        
+        <LatLngInput :location="'sourceLocation'"></LatLngInput>
+        <LatLngInput :location="'destinyLocation'"></LatLngInput>
+        <v-btn @click="onInsertButtonClick">Inserir</v-btn>
     
       </v-card-text>
 
@@ -14,23 +14,41 @@
 </template>
 
 <script lang="ts">
-import SearchBar from '../components/commom/SearchBar.vue';
-export default {
-  components: {
-    SearchBar
-  },
-  data() {
-    return {
-      searchQuery: '',
-      startDate: null,
-      endDate: null,
-    };
-  },
-  methods: {
-    handleSubmit() {
+  
+  import SearchBar from '../components/commom/SearchBar.vue';
+  import LatLngInput from './commom/LatLngInput.vue';
+  import { useCoordinateStore } from '@/store/coordinateStore';
+  import { watch, ref } from 'vue';
+
+  export default {
+    components: {
+      SearchBar,
+      LatLngInput
+    },
+    setup(){
+
+      const store = useCoordinateStore();
+    
+      const onInsertButtonClick = ()  => {
+        store.toggleInsertState();
+      }
+
+      return{
+        onInsertButtonClick
+      }
+    },
+    data() {
+      return {
+        searchQuery: '',
+        startDate: null,
+        endDate: null,
+      };
+    },
+    methods: {
+      handleSubmit() {
+      }
     }
-  }
-};
+  };
 </script>
 
 <style>
