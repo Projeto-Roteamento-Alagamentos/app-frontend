@@ -1,25 +1,28 @@
 <template>
+    
     <v-row>
-        <v-col>
+        <v-col cols="5">
             <v-text-field
             v-model="latitudeCoordinate"
             :rules="coordinateLatitudeRules"
             label="Digite a latitude"
             type="number"
+            variant="outlined"
             required
             @input="updateStore"
             ></v-text-field>
         </v-col>
-        <v-col>
+        <v-col cols="5">
             <v-text-field
             v-model="longitudeCoordinate"
             :rules="coordinateLongitudeRules"
             label="Digite a longitude"
+            variant="outlined"
             required
             @input="updateStore"
             ></v-text-field>
         </v-col>
-        <v-col>
+        <v-col cols="2">
             <v-btn @click="insertPoint" flat icon :color="isAtivo" >
               <v-icon>mdi-crosshairs-gps</v-icon>
             </v-btn>    

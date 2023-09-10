@@ -3,10 +3,27 @@
     <v-card class="inputs"> 
       <v-card-text>
         
-        <LatLngInput :location="'sourceLocation'"></LatLngInput>
-        <LatLngInput :location="'destinyLocation'"></LatLngInput>
-        <VueDatePicker></VueDatePicker>
-    
+        <v-row>
+          <v-col>
+            <LatLngInput :location="'sourceLocation'"></LatLngInput>
+            <LatLngInput :location="'destinyLocation'"></LatLngInput>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col><VueDatePicker v-model="date" :teleport="true" :format="format" /></v-col>
+        </v-row>
+        <v-row>
+          <v-col> <VueDatePicker v-model="time" :teleport="true" time-picker mode-height="120" /></v-col>
+        </v-row>
+        
+        <v-row>
+          <v-col>
+            <v-btn>Enviar</v-btn>
+          </v-col>
+        </v-row>
+       
+       
+
       </v-card-text>
 
     </v-card>
@@ -19,6 +36,7 @@
   import LatLngInput from './commom/LatLngInput.vue';
   import { useCoordinateStore } from '@/store/coordinateStore';
   import { watch, ref } from 'vue';
+  
   import VueDatePicker from '@vuepic/vue-datepicker';
   import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -29,6 +47,22 @@
       VueDatePicker
     },
     setup(){
+      const date = ref(new Date());
+      const time = ref(new Date());
+      
+      const format = (date: Date) => {
+        const day = date.getDate();
+        const month = date.getMonth() + 1;
+        const year = date.getFullYear();
+
+        return `${day}/${month}/${year}`;
+      }
+
+      return {
+        date,
+        format,
+        time
+      }
     },
     data() {
       return {
@@ -59,7 +93,7 @@
   }
 
   .inputs{
-    max-width: 400px;
+    max-width: 450px;
     background-color: rgb(35, 110, 175);
     padding: 10px;
     border-radius: 10px;
@@ -68,11 +102,10 @@
   }
 
   .vue-datepicker-class {
-    z-index: 100000000000; /* Ajuste o valor conforme necessário */
-    overflow: visible;
+    position: absolute;
   }
 
-  .v-date-picker-table { height: 100%; max-height: 300px;overflow: visible; }
+  .v-date-picker-table { height: 100%; height: 300px; position: relative; }
 
   @media (max-width: 700px) {
 

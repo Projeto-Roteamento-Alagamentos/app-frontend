@@ -1,14 +1,14 @@
 <template>
   <div style="height:100%;">
     <l-map @click="onMapClick"   :useGlobalLeaflet="false" ref="map" v-model:zoom="zoom"  :options="{zoomControl: false}" :center="[-23.1896, -45.8841]">
-      <l-marker draggable :lat-lng="markerSourcePosition" @moveend="event => handleMoveEnd(event, 'sourceLocation')"></l-marker>
+      <l-marker :icon="markerIcon" draggable :lat-lng="markerSourcePosition" @moveend="event => handleMoveEnd(event, 'sourceLocation')">
+      </l-marker>
       <l-marker draggable :lat-lng="markerDestinyPosition" @moveend="event => handleMoveEnd(event, 'destinyLocation')"></l-marker>
       <l-tile-layer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         layer-type="base"
         name="OpenStreetMap"
       ></l-tile-layer>
-      
       <l-control-zoom position="bottomright"  ></l-control-zoom>
     </l-map>
   </div>
@@ -17,10 +17,12 @@
 <script lang="ts">
 
   import "leaflet/dist/leaflet.css";
-  import { LMap, LTileLayer, LControlZoom, LMarker} from "@vue-leaflet/vue-leaflet";
+  import { LMap, LTileLayer, LControlZoom, LMarker, LIcon} from "@vue-leaflet/vue-leaflet";
   import { useCoordinateStore } from '@/store/coordinateStore';
   import { watch, ref, computed} from "vue";
-  import { LatLngTuple, LeafletEvent, LeafletMouseEvent} from 'leaflet';
+  import { LatLngTuple, LeafletEvent, LeafletMouseEvent, icon} from 'leaflet';
+  import blackLogo from '../assets/marker-icons/marker-icon-2x-black.png'
+  import shadowLogo from '../assets/marker-icons/marker-shadow.png'
 
 
 export default {
@@ -28,17 +30,28 @@ export default {
     LMap,
     LTileLayer,
     LControlZoom,
-    LMarker
+    LMarker,
+    LIcon
   },
   data() {
     return {
       zoom: 14,
+    
     };
   },
   setup(){
 
     const store = useCoordinateStore();
 
+    const markerSourcePosition = computed(() => store.sourceLocation); 
+    const markerDestinyPosition = computed(() => store.destinyLocation); 
+
+    const markerIcon = icon({
+        iconUrl: blackLogo,
+        shadowUrl: shadowLogo,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+    })
 
     const handleMoveEnd = (event: LeafletEvent, state: 'sourceLocation' | 'destinyLocation') => {
         const newPosition = event.target.getLatLng();
@@ -46,33 +59,22 @@ export default {
         store[state] = coordinate
     }
 
-    const markerSourcePosition = computed(() => store.sourceLocation); 
-    const markerDestinyPosition = computed(() => store.destinyLocation); 
-
     const onMapClick = (event: LeafletMouseEvent) => {
-      let state: 'sourceLocation' | 'destinyLocation'
-      const newPosition = event.latlng
-      state = 'sourceLocation'
-      if(store.buttonStateToInsert == '') return
+      const newPosition = event.latlng;
+      const { buttonStateToInsert } = store;
 
-      if(store.buttonStateToInsert == 'sourceLocation'){
-        state = 'sourceLocation'
-        store[state] = [newPosition.lat, newPosition.lng]
+      if (buttonStateToInsert === 'sourceLocation' || buttonStateToInsert === 'destinyLocation') {
+          store[buttonStateToInsert] = [newPosition.lat, newPosition.lng];
+          store.buttonStateToInsert = '';
       }
-        
-      if(store.buttonStateToInsert == 'destinyLocation'){
-        state = 'destinyLocation'
-        store[state] = [newPosition.lat, newPosition.lng]
-      }
-
-      store.buttonStateToInsert = ''
     }
-
+    
     return {
       handleMoveEnd,
       onMapClick,
       markerSourcePosition,
-      markerDestinyPosition
+      markerDestinyPosition,
+      markerIcon
     }
   }
 };
