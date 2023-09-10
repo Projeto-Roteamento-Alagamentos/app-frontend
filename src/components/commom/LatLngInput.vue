@@ -19,14 +19,19 @@
             @input="updateStore"
             ></v-text-field>
         </v-col>
+        <v-col>
+            <v-btn @click="insertPoint" flat icon :color="isAtivo" >
+              <v-icon>mdi-crosshairs-gps</v-icon>
+            </v-btn>    
+        </v-col>
     </v-row> 
 </template>
 
 <script lang="ts">
-    import { defineComponent, ref } from 'vue';
+    import { defineComponent, ref, computed} from 'vue';
     import { useCoordinateStore } from '@/store/coordinateStore';
     import { watch } from 'vue';
-    import { LatLngTuple, LeafletEvent, marker, LatLngExpression } from 'leaflet';
+    import { LatLngTuple} from 'leaflet';
 
     type LocationType = 'sourceLocation' | 'destinyLocation';
 
@@ -73,17 +78,25 @@
 
             const updateStore = () => {
                 const coordinates = [parseFloat(latitudeCoordinate.value), parseFloat(longitudeCoordinate.value)] as LatLngTuple
-                store.setCoordinate(props.location, coordinates);
-               
+                store.setCoordinate(props.location, coordinates); 
             };
 
+            const insertPoint = () => {
+                
+                store.changeInsertState(props.location)
+                console.log(store.buttonStateToInsert==props.location)
+            }
+
+            const isAtivo = computed(() => store.buttonStateToInsert == props.location? 'indigo': 'grey'); // Garante reatividade
 
             return {
                 latitudeCoordinate,
                 longitudeCoordinate,
                 coordinateLongitudeRules,
                 coordinateLatitudeRules,
-                updateStore
+                updateStore,
+                insertPoint,
+                isAtivo
             };
     }
 })
@@ -91,5 +104,4 @@
 </script>
 
 <style>
-
 </style>

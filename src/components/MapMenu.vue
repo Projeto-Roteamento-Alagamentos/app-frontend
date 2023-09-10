@@ -5,6 +5,7 @@
         
         <LatLngInput :location="'sourceLocation'"></LatLngInput>
         <LatLngInput :location="'destinyLocation'"></LatLngInput>
+        <VueDatePicker></VueDatePicker>
         <v-btn @click="onInsertButtonClick">Inserir</v-btn>
     
       </v-card-text>
@@ -19,11 +20,14 @@
   import LatLngInput from './commom/LatLngInput.vue';
   import { useCoordinateStore } from '@/store/coordinateStore';
   import { watch, ref } from 'vue';
+  import VueDatePicker from '@vuepic/vue-datepicker';
+  import '@vuepic/vue-datepicker/dist/main.css';
 
   export default {
     components: {
       SearchBar,
-      LatLngInput
+      LatLngInput,
+      VueDatePicker
     },
     setup(){
 
@@ -62,6 +66,7 @@
     /*  background-color: black; */
     padding: 0px 50px 0px 50px;
     width: 100%;
+    overflow: visible;
   }
 
   .inputs{
@@ -69,8 +74,16 @@
     background-color: rgb(35, 110, 175);
     padding: 10px;
     border-radius: 10px;
+    overflow: visible;
 
   }
+
+  .vue-datepicker-class {
+    z-index: 100000000000; /* Ajuste o valor conforme necessário */
+    overflow: visible;
+  }
+
+  .v-date-picker-table { height: 100%; max-height: 300px;overflow: visible; }
 
   @media (max-width: 700px) {
 

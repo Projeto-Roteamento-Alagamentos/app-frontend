@@ -7,7 +7,8 @@ export const useCoordinateStore = defineStore({
   state: () => ({
     sourceLocation: [0, 0] as LatLngTuple,
     destinyLocation: [0, 0] as LatLngTuple,
-    shouldInsertToMap: false
+    shouldInsertToMap: false,
+    buttonStateToInsert: ''
   }),
 
   actions: {
@@ -16,6 +17,12 @@ export const useCoordinateStore = defineStore({
     },
     toggleInsertState() {
       this.shouldInsertToMap = !this.shouldInsertToMap;
+    },
+    changeInsertState(location:'sourceLocation' | 'destinyLocation' ){
+      if(this.buttonStateToInsert == location){
+        this.buttonStateToInsert = ''
+      }
+      else this.buttonStateToInsert = location
     }
   }
 });

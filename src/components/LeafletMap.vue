@@ -1,6 +1,6 @@
 <template>
   <div style="height:100%;">
-    <l-map  :useGlobalLeaflet="false" ref="map" v-model:zoom="zoom"  :options="{zoomControl: false}" :center="[-23.1896, -45.8841]">
+    <l-map @click="onMapClick"   :useGlobalLeaflet="false" ref="map" v-model:zoom="zoom"  :options="{zoomControl: false}" :center="[-23.1896, -45.8841]">
       <l-marker draggable :lat-lng="markerSource" @moveend="event => handleMoveEnd(event, 'sourceLocation')"></l-marker>
       <l-marker draggable :lat-lng="markerDestiny" @moveend="event => handleMoveEnd(event, 'destinyLocation')"></l-marker>
       <l-tile-layer
@@ -20,7 +20,7 @@
   import { LMap, LTileLayer, LControlZoom, LMarker} from "@vue-leaflet/vue-leaflet";
   import { useCoordinateStore } from '@/store/coordinateStore';
   import { watch, ref } from "vue";
-  import { LatLngTuple, LeafletEvent, marker, LatLngExpression } from 'leaflet';
+  import { LatLngTuple, LeafletEvent, LeafletMouseEvent} from 'leaflet';
 
 
 export default {
@@ -30,6 +30,12 @@ export default {
     LControlZoom,
     LMarker
   },
+  mounted(){
+    const store = useCoordinateStore();
+    store.sourceLocation = [-23.208578434477708, -45.887129996295215]
+    store.destinyLocation = [-23.208578434477708, -45.887129996295215]
+
+  },
   data() {
     return {
       zoom: 14,
@@ -38,10 +44,11 @@ export default {
     };
   },
   setup(){
-    const markerSource = ref<LatLngTuple>([51.505, -0.09]);
-    const markerDestiny = ref<LatLngTuple>([51.505, -0.09]);
-    const store = useCoordinateStore();
 
+    const store = useCoordinateStore();
+    const markerSource = ref<LatLngTuple>([-23.208578434477708, -45.887129996295215]);
+    const markerDestiny = ref<LatLngTuple>([-23.208578434477708, -45.887129996295215]);
+    
     watch(() => store.shouldInsertToMap, () => {
       markerSource.value = store.sourceLocation
       markerDestiny.value = store.destinyLocation
@@ -56,11 +63,33 @@ export default {
         store[state] = coordinate
     }
 
+    const onMapClick = (event: LeafletMouseEvent) => {
+      let state: 'sourceLocation' | 'destinyLocation'
+      const newPosition = event.latlng
+      state = 'sourceLocation'
+      if(store.buttonStateToInsert == '') return
+
+      if(store.buttonStateToInsert == 'sourceLocation'){
+        state = 'sourceLocation'
+        store[state] = [newPosition.lat, newPosition.lng]
+      }
+        
+      if(store.buttonStateToInsert == 'destinyLocation'){
+        state = 'destinyLocation'
+        store[state] = [newPosition.lat, newPosition.lng]
+      }
+
+      if(state == 'sourceLocation') markerSource.value = [newPosition.lat, newPosition.lng];
+        else markerDestiny.value = [newPosition.lat, newPosition.lng];
+      
+      store.buttonStateToInsert = ''
+    }
 
     return {
       markerSource, 
       markerDestiny,
-      handleMoveEnd
+      handleMoveEnd,
+      onMapClick
     }
   }
 };
