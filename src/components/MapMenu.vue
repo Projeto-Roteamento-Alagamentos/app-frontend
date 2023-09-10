@@ -6,7 +6,6 @@
         <LatLngInput :location="'sourceLocation'"></LatLngInput>
         <LatLngInput :location="'destinyLocation'"></LatLngInput>
         <VueDatePicker></VueDatePicker>
-        <v-btn @click="onInsertButtonClick">Inserir</v-btn>
     
       </v-card-text>
 
@@ -30,16 +29,6 @@
       VueDatePicker
     },
     setup(){
-
-      const store = useCoordinateStore();
-    
-      const onInsertButtonClick = ()  => {
-        store.toggleInsertState();
-      }
-
-      return{
-        onInsertButtonClick
-      }
     },
     data() {
       return {

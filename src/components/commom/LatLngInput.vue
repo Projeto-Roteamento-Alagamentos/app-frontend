@@ -87,7 +87,7 @@
                 console.log(store.buttonStateToInsert==props.location)
             }
 
-            const isAtivo = computed(() => store.buttonStateToInsert == props.location? 'indigo': 'grey'); // Garante reatividade
+            const isAtivo = computed(() => store.buttonStateToInsert == props.location? 'indigo': 'grey'); 
 
             return {
                 latitudeCoordinate,
