@@ -56,11 +56,7 @@ export default {
     const markerSourcePosition = computed(() => store.sourceLocation); 
     const markerDestinyPosition = computed(() => store.destinyLocation); 
     const isLoading = computed(() => modal.loadingMap)
-   
-    const geojson = computed(() => {
-      console.log(store.modelResult)
-      return store.modelResult
-    })
+    const geojson = computed(() => { return store.modelResult })
 
     watch(() => store.sourceLocation, () => {
       store.modelResult = {
@@ -76,7 +72,6 @@ export default {
         } as GeoJsonObject
     });
 
-    
 
     const markerIcon = icon({
         iconUrl: blackLogo,

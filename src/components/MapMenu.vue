@@ -66,7 +66,7 @@
             </v-row>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row >
           <v-col>
             <v-btn variant="outlined" @click="sendRequest()">Enviar</v-btn>
             
@@ -249,6 +249,8 @@
 
     .map-menu{
       left: 0px;
+      width: 100%;
+      padding: 5px;
     }
     
   }

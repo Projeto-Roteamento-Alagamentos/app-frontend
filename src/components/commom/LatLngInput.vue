@@ -1,6 +1,6 @@
 <template>
     
-    <v-row>
+    <v-row class="content">
         <v-col cols="5">
             <v-text-field
             v-model="latitudeCoordinate"
@@ -25,7 +25,7 @@
         </v-col>
         <v-col cols="2">
             <v-btn @click="insertPoint" flat icon :color="isAtivo" >
-              <v-icon>mdi-crosshairs-gps</v-icon>
+              <v-icon size="auto">mdi-crosshairs-gps</v-icon>
             </v-btn>    
         </v-col>
     </v-row> 
@@ -57,7 +57,7 @@
             watch(() => store[props.location], (newValue, oldValue) => {
 
                     if(!newValue) return
-                    
+
                     latitudeCoordinate.value = String(newValue[0])
                     longitudeCoordinate.value = String(newValue[1])
                 }
@@ -121,4 +121,14 @@
     input[type="number"] {
     -moz-appearance: textfield;
     }
+
+    @media (max-width: 700px) {
+
+        .content .v-col{
+            padding: 5px !important;
+        }
+        
+    }
+
+    
 </style>
