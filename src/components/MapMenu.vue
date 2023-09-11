@@ -155,7 +155,7 @@
       sendRequest(){
         
         const geojson = this.createGeoJSONWithTwoPoints()
-        const url = 'http://localhost:8080/api/v1/modelo_previsao/geojson';
+        const url = 'https://back-end-projeto-alagamentos-upfpc35ezq-uc.a.run.app/api/v1/modelo_previsao/geojson';
         const store = useCoordinateStore();
 
         axios.post(url, geojson)
