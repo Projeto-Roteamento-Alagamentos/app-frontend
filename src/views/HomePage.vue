@@ -1,5 +1,6 @@
 <template>
     <NavigationBar></NavigationBar>
+    <Modal></Modal>
 </template>
 
 <script lang="ts">
@@ -7,6 +8,7 @@ import { defineComponent } from 'vue';
 import LeafletMap from '../components/LeafletMap.vue';
 import MapMenu from '../components/MapMenu.vue';
 import NavigationBar from '@/components/commom/NavigationBar.vue';
+import Modal from '@/components/commom/Modal.vue';
 
 
 export default defineComponent({
@@ -14,7 +16,8 @@ export default defineComponent({
   components: {
     LeafletMap, 
     MapMenu,
-    NavigationBar
+    NavigationBar,
+    Modal
   }
 });
 </script>

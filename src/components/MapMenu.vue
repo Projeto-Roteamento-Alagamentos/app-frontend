@@ -57,7 +57,11 @@
             </v-row>
             <v-row no-gutters>
               <v-col> 
-                <VueDatePicker v-model="time" :teleport="true" time-picker mode-height="120" />
+                <VueDatePicker v-model="time" :teleport="true" time-picker mode-height="120" >
+                  <template #input-icon>
+                    <img class="input-slot-image" src="../assets/query_builder_black_24dp.svg"/>
+                  </template>
+                </VueDatePicker>
               </v-col>
             </v-row>
           </v-col>
@@ -65,11 +69,13 @@
         <v-row>
           <v-col>
             <v-btn variant="outlined" @click="sendRequest()">Enviar</v-btn>
+            
           </v-col>
         </v-row>
       </v-card-text>
     </v-card>
   </div>
+ 
 </template>
 
 <script lang="ts">
@@ -77,7 +83,8 @@
   import SearchBar from '../components/commom/SearchBar.vue';
   import LatLngInput from './commom/LatLngInput.vue';
   import { useCoordinateStore } from '@/store/coordinateStore';
-  import { watch, ref } from 'vue';
+  import { useModalStore } from '@/store/modalStore';
+  import { ref } from 'vue';
   
   import VueDatePicker from '@vuepic/vue-datepicker';
   import '@vuepic/vue-datepicker/dist/main.css';
@@ -93,7 +100,6 @@
 
       const date = ref(new Date());
       const time = ref(new Date());
-      
       
       const format = (date: Date) => {
         const day = date.getDate();
@@ -153,10 +159,19 @@
         };
       },
       sendRequest(){
+
+        const store = useCoordinateStore();
+        const modal = useModalStore();
+
+        if(store.emptyCoordinates()){
+          modal.showModal()
+          return
+        }
         
         const geojson = this.createGeoJSONWithTwoPoints()
-        const url = 'https://back-end-projeto-alagamentos-upfpc35ezq-uc.a.run.app/api/v1/modelo_previsao/geojson';
-        const store = useCoordinateStore();
+        const url = 'http://localhost:8080/api/v1/modelo_previsao/geojson';
+        
+
 
         axios.post(url, geojson)
           .then(response => {
@@ -206,6 +221,14 @@
   }
 
   .v-date-picker-table { height: 100%; height: 300px; position: relative; }
+
+  .input-slot-image {
+        height: 19px;
+        width: auto;
+        margin-left: 9px;
+        margin-top: 4px;
+        color: #959595 !important;
+    }
 
   @media (max-width: 700px) {
 

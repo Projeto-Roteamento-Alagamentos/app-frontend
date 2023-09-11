@@ -55,6 +55,9 @@
 
 
             watch(() => store[props.location], (newValue, oldValue) => {
+
+                    if(!newValue) return
+                    
                     latitudeCoordinate.value = String(newValue[0])
                     longitudeCoordinate.value = String(newValue[1])
                 }
