@@ -3,18 +3,68 @@
     <v-card class="inputs"> 
       <v-card-text>
         
-        <v-row>
+        <v-row no-gutters >
           <v-col>
-            <LatLngInput :location="'sourceLocation'"></LatLngInput>
-            <LatLngInput :location="'destinyLocation'"></LatLngInput>
+            <v-row no-gutters class="title">
+              <v-col>
+                <h2>Definir ponto de partida</h2>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col>
+                <LatLngInput :location="'sourceLocation'"></LatLngInput>
+              </v-col>
+            </v-row>
+
+            <v-row no-gutters class="title">
+              <v-col>
+                <h2>Definir ponto de destino</h2>
+              </v-col>
+            </v-row>
+            <v-row no-gutters >
+              <v-col>
+                <LatLngInput :location="'destinyLocation'"></LatLngInput>
+              </v-col>
+            </v-row>
+            
+            
           </v-col>
         </v-row>
-        <v-row>
-          <v-col><VueDatePicker v-model="date" :teleport="true" :format="format" /></v-col>
+
+        <v-row no-gutters>
+          <v-col>
+            <v-row no-gutters class="title">
+              <v-col>
+                <h2>Data de partida</h2>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col> 
+              <VueDatePicker v-model="date" :teleport="true" :format="format" />
+
+              </v-col>
+              
+            </v-row>
+          </v-col>
         </v-row>
-        <v-row>
-          <v-col> <VueDatePicker v-model="time" :teleport="true" time-picker mode-height="120" /></v-col>
+
+        <v-row >
+          <v-col>
+            <v-row no-gutters class="title">
+              <v-col>
+                <h2>Horário de partida</h2>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col> 
+                <VueDatePicker v-model="time" :teleport="true" time-picker mode-height="120" />
+              </v-col>
+            </v-row>
+          </v-col>
         </v-row>
+
+
+     
         
         <v-row>
           <v-col>
@@ -103,6 +153,11 @@
 
   .vue-datepicker-class {
     position: absolute;
+  }
+
+  .title{
+    padding-bottom: 5px;
+    /* border: 1px solid black ; */
   }
 
   .v-date-picker-table { height: 100%; height: 300px; position: relative; }
