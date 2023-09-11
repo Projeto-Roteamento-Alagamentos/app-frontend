@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { LatLngTuple, LeafletEvent, marker, LatLngExpression } from 'leaflet';
+import { LatLngTuple, LeafletEvent, marker, LatLngExpression} from 'leaflet';
+import { GeoJsonObject } from 'geojson';
 
 export const useCoordinateStore = defineStore({
   id: 'coordinate',
@@ -8,7 +9,11 @@ export const useCoordinateStore = defineStore({
     sourceLocation: [0, 0] as LatLngTuple,
     destinyLocation: [0, 0] as LatLngTuple,
     shouldInsertToMap: false,
-    buttonStateToInsert: ''
+    buttonStateToInsert: '', 
+    modelResult: {
+      type: "FeatureCollection",
+      features: []
+    } as  GeoJsonObject
   }),
 
   actions: {

@@ -62,20 +62,12 @@
             </v-row>
           </v-col>
         </v-row>
-
-
-     
-        
         <v-row>
           <v-col>
-            <v-btn>Enviar</v-btn>
+            <v-btn variant="outlined" @click="sendRequest()">Enviar</v-btn>
           </v-col>
         </v-row>
-       
-       
-
       </v-card-text>
-
     </v-card>
   </div>
 </template>
@@ -89,6 +81,7 @@
   
   import VueDatePicker from '@vuepic/vue-datepicker';
   import '@vuepic/vue-datepicker/dist/main.css';
+  import axios from 'axios'
 
   export default {
     components: {
@@ -97,8 +90,10 @@
       VueDatePicker
     },
     setup(){
+
       const date = ref(new Date());
       const time = ref(new Date());
+      
       
       const format = (date: Date) => {
         const day = date.getDate();
@@ -122,7 +117,57 @@
       };
     },
     methods: {
-      handleSubmit() {
+      createGeoJSONWithTwoPoints() {
+        const store = useCoordinateStore();
+        let point1 = store.sourceLocation
+        let point2 = store.destinyLocation
+
+        if (!point1 || !point2 || point1.length !== 2 || point2.length !== 2) {
+            throw new Error('Os pontos fornecidos são inválidos.');
+        }
+
+        return {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": point1
+                    },
+                    "properties": {
+                      "role": "origin",
+                      "date": "",
+                      "time": ""
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": point2
+                    },
+                    "properties": {}
+                }
+            ]
+        };
+      },
+      sendRequest(){
+        
+        const geojson = this.createGeoJSONWithTwoPoints()
+        const url = 'http://localhost:8080/api/v1/modelo_previsao/geojson';
+        const store = useCoordinateStore();
+
+        axios.post(url, geojson)
+          .then(response => {
+            console.log('Dados recebidos:', response.data);
+            store.modelResult = response.data
+        })
+        .catch(error => {
+          console.error('Erro:', error);
+        });
+
+   
       }
     }
   };
@@ -138,7 +183,7 @@
     margin-top: 20px;
     /*  background-color: black; */
     padding: 0px 50px 0px 50px;
-    width: 100%;
+    /* width: 100%; */
     overflow: visible;
   }
 
@@ -156,7 +201,7 @@
   }
 
   .title{
-    padding-bottom: 5px;
+    padding-bottom: 15px;
     /* border: 1px solid black ; */
   }
 

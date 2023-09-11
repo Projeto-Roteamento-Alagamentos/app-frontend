@@ -9,6 +9,7 @@
         layer-type="base"
         name="OpenStreetMap"
       ></l-tile-layer>
+      <l-geo-json :geojson="geojson"></l-geo-json>
       <l-control-zoom position="bottomright"  ></l-control-zoom>
     </l-map>
   </div>
@@ -17,7 +18,7 @@
 <script lang="ts">
 
   import "leaflet/dist/leaflet.css";
-  import { LMap, LTileLayer, LControlZoom, LMarker, LIcon} from "@vue-leaflet/vue-leaflet";
+  import { LMap, LTileLayer, LControlZoom, LMarker, LIcon, LGeoJson} from "@vue-leaflet/vue-leaflet";
   import { useCoordinateStore } from '@/store/coordinateStore';
   import { watch, ref, computed} from "vue";
   import { LatLngTuple, LeafletEvent, LeafletMouseEvent, icon} from 'leaflet';
@@ -31,7 +32,8 @@ export default {
     LTileLayer,
     LControlZoom,
     LMarker,
-    LIcon
+    LIcon, 
+    LGeoJson
   },
   data() {
     return {
@@ -42,9 +44,14 @@ export default {
   setup(){
 
     const store = useCoordinateStore();
-
+ 
     const markerSourcePosition = computed(() => store.sourceLocation); 
     const markerDestinyPosition = computed(() => store.destinyLocation); 
+   
+    const geojson = computed(() => {
+      console.log(store.modelResult)
+      return store.modelResult
+    })
 
     const markerIcon = icon({
         iconUrl: blackLogo,
@@ -74,7 +81,8 @@ export default {
       onMapClick,
       markerSourcePosition,
       markerDestinyPosition,
-      markerIcon
+      markerIcon,
+      geojson
     }
   }
 };

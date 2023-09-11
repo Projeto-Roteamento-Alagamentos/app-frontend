@@ -14,6 +14,7 @@
         </v-col>
         <v-col cols="5">
             <v-text-field
+            type="number"
             v-model="longitudeCoordinate"
             :rules="coordinateLongitudeRules"
             label="Digite a longitude"
@@ -107,4 +108,14 @@
 </script>
 
 <style>
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type="number"] {
+    -moz-appearance: textfield;
+    }
 </style>
