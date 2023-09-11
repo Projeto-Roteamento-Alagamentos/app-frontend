@@ -5,7 +5,8 @@ export const useModalStore = defineStore({
   
   state: () => ({
 
-    modal: false
+    modal: false, 
+    loadingMap: false
    
   }),
 

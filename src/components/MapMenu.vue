@@ -163,11 +163,15 @@
         const store = useCoordinateStore();
         const modal = useModalStore();
 
+        
+
         if(store.emptyCoordinates()){
           modal.showModal()
           return
         }
-        
+
+        modal.loadingMap = true;
+
         const geojson = this.createGeoJSONWithTwoPoints()
         const url = 'http://localhost:8080/api/v1/modelo_previsao/geojson';
         
@@ -182,6 +186,10 @@
           console.error('Erro:', error);
         });
 
+        setTimeout(() => {
+          modal.loadingMap = false
+        }, 2000);
+       
    
       }
     }
