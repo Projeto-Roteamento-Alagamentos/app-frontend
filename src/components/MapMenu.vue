@@ -15,6 +15,22 @@
                 <LatLngInput :location="'sourceLocation'"></LatLngInput>
               </v-col>
             </v-row>
+            <v-row>
+             <v-col style="
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* float: right; */
+    /* float: right; */
+    text-align: -webkit-right; margin-top: -20px;">
+            
+              <v-btn flat icon @click="changeCoordinates()" >
+                <v-icon size="xxx-large">mdi-swap-vertical </v-icon>
+              </v-btn>  
+             
+                
+             </v-col>
+            </v-row>
 
             <v-row no-gutters class="title">
               <v-col>
@@ -157,6 +173,11 @@
                 }
             ]
         };
+      },
+      changeCoordinates(){
+        const store = useCoordinateStore();
+        store.changeTuple()
+
       },
       sendRequest(){
 

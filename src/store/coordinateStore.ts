@@ -39,6 +39,11 @@ export const useCoordinateStore = defineStore({
         type: "FeatureCollection",
         features: []
       } as GeoJsonObject
+    },
+    changeTuple(){
+      let temp = this.sourceLocation
+      this.sourceLocation = this.destinyLocation
+      this.destinyLocation = temp
     }
   }
 });
