@@ -33,6 +33,12 @@ export const useCoordinateStore = defineStore({
       if(!this.sourceLocation || !this.destinyLocation)
         return true
       return false
+    },
+    setEmptyResult(){
+      this.modelResult = {
+        type: "FeatureCollection",
+        features: []
+      } as GeoJsonObject
     }
   }
 });

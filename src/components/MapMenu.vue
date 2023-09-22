@@ -171,24 +171,29 @@
         }
 
         modal.loadingMap = true;
+        // store.setEmptyResult()
 
         const geojson = this.createGeoJSONWithTwoPoints()
         const url = 'https://back-end-projeto-alagamentos-upfpc35ezq-uc.a.run.app/api/v1/modelo_previsao/geojson';
         
 
-
-        axios.post(url, geojson)
+        const headers = {
+          'Access-Control-Allow-Origin' : '*',
+          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        }
+        axios.post(url, geojson,  {headers: headers})
           .then(response => {
             console.log('Dados recebidos:', response.data);
             store.modelResult = response.data
+            setTimeout(() => {
+              modal.loadingMap = false
+            }, 1000);
         })
         .catch(error => {
           console.error('Erro:', error);
         });
 
-        setTimeout(() => {
-          modal.loadingMap = false
-        }, 2000);
+        
        
    
       }
