@@ -6,7 +6,7 @@
         color="primary"
       ></v-progress-circular>
     </div>
-    <l-map @click="onMapClick"   :useGlobalLeaflet="false" ref="map" v-model:zoom="zoom"  :options="{zoomControl: false}" :center="[-23.1896, -45.8841]">
+    <l-map @click="onMapClick"   :useGlobalLeaflet="false" ref="map" v-model:zoom="zoom"  :options="{zoomControl: false}" :center="[-23.550520, -46.633308]">
       <l-marker v-if="markerSourcePosition" :icon="markerIcon" draggable :lat-lng="markerSourcePosition" @moveend="event => handleMoveEnd(event, 'sourceLocation')">
       </l-marker>
       <l-marker  v-if="markerDestinyPosition" draggable :lat-lng="markerDestinyPosition" @moveend="event => handleMoveEnd(event, 'destinyLocation')"></l-marker>
