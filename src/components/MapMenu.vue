@@ -82,6 +82,18 @@
             </v-row>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col>
+            <h2 style="margin-bottom:15px;">Modelo para cálculo</h2>
+            <div class="checkbox">
+
+              <v-checkbox v-model="proposed" color="blue" label="Proposto"></v-checkbox>
+              <v-checkbox v-model="length" color="blue" label="Distância sem chuva"></v-checkbox>
+              <v-checkbox v-model="time_no_rain" color="blue" label="Tempo sem chuva"></v-checkbox>
+              
+            </div>
+          </v-col>
+        </v-row>
         <v-row >
           <v-col>
             <v-btn variant="outlined" @click="sendRequest()">Enviar</v-btn>
@@ -136,6 +148,9 @@
         searchQuery: '',
         startDate: null,
         endDate: null,
+        proposed: true,
+        time_no_rain: false,
+        length: false
       };
     },
     methods: {
@@ -160,7 +175,8 @@
                     "properties": {
                       "role": "origin",
                       "date": this.date,
-                      "time": this.time
+                      "time": this.time,
+                      "models": []
                     }
                 },
                 {
@@ -197,6 +213,16 @@
         const geojson = this.createGeoJSONWithTwoPoints()
         const url = 'https://back-end-projeto-alagamentos-upfpc35ezq-uc.a.run.app/api/v1/modelo_previsao/geojson';
         
+        if(this.proposed)
+          geojson.features[0].properties.models.push("proposed")
+
+        if(this.time_no_rain)
+          geojson.features[0].properties.models.push("time_no_rain")
+
+        if(this.length)
+          geojson.features[0].properties.models.push("legth_no_rain")
+
+        console.log(geojson)
 
         const headers = {
           'Access-Control-Allow-Origin' : '*',
@@ -254,7 +280,18 @@
     /* border: 1px solid black ; */
   }
 
+
   .v-date-picker-table { height: 100%; height: 300px; position: relative; }
+
+
+  .v-checkbox .v-selection-control {
+    /* min-height: var(--v-input-control-height); */
+    min-height: 0px;
+  }
+   
+  .checkbox .v-input__details{
+    display: none;
+  }
 
   .input-slot-image {
         height: 19px;

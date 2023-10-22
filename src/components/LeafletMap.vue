@@ -32,6 +32,8 @@
   import shadowLogo from '../assets/marker-icons/marker-shadow.png'
   import { useModalStore } from "@/store/modalStore";
   import { GeoJsonObject } from 'geojson';
+  // import "leaflet-html-legend/dist/L.Control.HtmlLegend.css"
+  // import {HtmlLegend} from "leaflet-html-legend/dist/L.Control.HtmlLegend.js"
 
 
 export default {
@@ -79,6 +81,9 @@ export default {
         iconSize: [25, 41],
         iconAnchor: [12, 41],
     })
+
+    
+
 
     const handleMoveEnd = (event: LeafletEvent, state: 'sourceLocation' | 'destinyLocation') => {
         const newPosition = event.target.getLatLng();

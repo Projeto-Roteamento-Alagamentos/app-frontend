@@ -14,6 +14,7 @@
     "@vuepic/vue-datepicker": "^6.1.0",
     "axios": "^1.5.0",
     "core-js": "^3.29.0",
+    "leaflet-html-legend": "^0.3.5",
     "leaflet.awesome-markers": "^2.0.5",
     "lodash": "^4.17.21",
     "ol": "^7.5.1",

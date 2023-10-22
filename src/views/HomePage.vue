@@ -26,4 +26,5 @@ export default defineComponent({
 .main-content{
   border: 1px solid black;
 }
+
 </style>
