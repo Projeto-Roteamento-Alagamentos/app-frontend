@@ -163,7 +163,7 @@
             throw new Error('Os pontos fornecidos são inválidos.');
         }
 
-        return {
+        let geoj = {
             "type": "FeatureCollection",
             "features": [
                 {
@@ -176,7 +176,7 @@
                       "role": "origin",
                       "date": this.date,
                       "time": this.time,
-                      "models": []
+                      "models": [] as string[] 
                     }
                 },
                 {
@@ -189,6 +189,18 @@
                 }
             ]
         };
+
+        geoj.features[0].properties.models = []
+        if(this.proposed)
+          geoj.features[0].properties.models.push("proposed")
+
+        if(this.time_no_rain)
+          geoj.features[0].properties.models.push("time_no_rain")
+
+        if(this.length)
+          geoj.features[0].properties.models.push("legth_no_rain")
+
+        return geoj
       },
       changeCoordinates(){
         const store = useCoordinateStore();
@@ -213,14 +225,7 @@
         const geojson = this.createGeoJSONWithTwoPoints()
         const url = 'https://back-end-projeto-alagamentos-upfpc35ezq-uc.a.run.app/api/v1/modelo_previsao/geojson';
         
-        if(this.proposed)
-          geojson.features[0].properties.models.push("proposed")
-
-        if(this.time_no_rain)
-          geojson.features[0].properties.models.push("time_no_rain")
-
-        if(this.length)
-          geojson.features[0].properties.models.push("legth_no_rain")
+        
 
         console.log(geojson)
 
