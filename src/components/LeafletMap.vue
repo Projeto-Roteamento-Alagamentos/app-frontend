@@ -41,7 +41,7 @@
   import blackLogo from '../assets/marker-icons/marker-icon-2x-black.png'
   import shadowLogo from '../assets/marker-icons/marker-shadow.png'
   import { useModalStore } from "@/store/modalStore";
-  import { GeoJsonObject } from 'geojson';
+  import { GeoJsonObject, GeoJsonProperties, Feature} from 'geojson';
   // import "leaflet-html-legend/dist/L.Control.HtmlLegend.css"
   // import {HtmlLegend} from "leaflet-html-legend/dist/L.Control.HtmlLegend.js"
 
@@ -74,8 +74,9 @@ export default {
     
 
     const features = computed(() => { 
-        let final = []
-        store.modelResult.features.forEach(function(valor, indice) { 
+        let final =  [];
+      
+        store.modelResult.features.forEach(function(valor, indice:number) { 
           if(visibleLines.value[indice]){
             valor.properties.color = colors[indice]
             final.push(valor)
@@ -108,12 +109,7 @@ export default {
         iconAnchor: [12, 41],
     })
 
-    const returnVisible=(dd) => {
-     console.log(dd)
-     return visibleLines[dd]
-   }
-
-    const getColor=(index) => {
+    const getColor=(index:number) => {
      
       return colors[index % colors.length]
     }
@@ -123,7 +119,7 @@ export default {
     })
 
 
-    const toggleLineVisibility = (index)  => {
+    const toggleLineVisibility = (index:number)  => {
       console.log(visibleLines)
       visibleLines.value[index] = !visibleLines.value[index]
     }
@@ -157,7 +153,6 @@ export default {
       getColor,
       toggleLineVisibility,
       visibleLines,
-      returnVisible,
       features
     }
   }
