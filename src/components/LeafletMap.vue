@@ -15,9 +15,19 @@
         layer-type="base"
         name="OpenStreetMap"
       ></l-tile-layer>
-      <l-geo-json :geojson="geojson"></l-geo-json>
+      <l-geo-json v-for="(feature, index) in features"
+                   
+                  :options-style="{color: feature.properties.color}"  
+                  :geojson="geojson"></l-geo-json>
       <l-control-zoom position="bottomright"  ></l-control-zoom>
     </l-map>
+  </div>
+
+  <div v-if="geojson.features.length != 0" class="legend">
+    <div v-for="(feature, index) in geojson.features" :key="feature.properties.id" class="legend-item">
+      <div @click="toggleLineVisibility(index)" :style="{ backgroundColor: getColor(index), width: '20px', height: '20px' }"></div>
+      <span>{{ feature.properties.name }}</span>
+    </div> 
   </div>
 </template>
 
@@ -26,7 +36,7 @@
   import "leaflet/dist/leaflet.css";
   import { LMap, LTileLayer, LControlZoom, LMarker, LIcon, LGeoJson} from "@vue-leaflet/vue-leaflet";
   import { useCoordinateStore } from '@/store/coordinateStore';
-  import { watch, ref, computed} from "vue";
+  import { watch, ref, computed, onMounted} from "vue";
   import { LatLngTuple, LeafletEvent, LeafletMouseEvent, icon} from 'leaflet';
   import blackLogo from '../assets/marker-icons/marker-icon-2x-black.png'
   import shadowLogo from '../assets/marker-icons/marker-shadow.png'
@@ -59,6 +69,23 @@ export default {
     const markerDestinyPosition = computed(() => store.destinyLocation); 
     const isLoading = computed(() => modal.loadingMap)
     const geojson = computed(() => { return store.modelResult })
+    const colors = ['#b51212', '#12b551', '#1234b5']
+    let visibleLines = ref([true, true, true])
+    
+
+    const features = computed(() => { 
+        let final = []
+        store.modelResult.features.forEach(function(valor, indice) { 
+          if(visibleLines.value[indice]){
+            valor.properties.color = colors[indice]
+            final.push(valor)
+          
+          }
+              
+        });
+        return final;
+    })
+   
 
     watch(() => store.sourceLocation, () => {
       store.modelResult = {
@@ -74,7 +101,6 @@ export default {
         } as GeoJsonObject
     });
 
-
     const markerIcon = icon({
         iconUrl: blackLogo,
         shadowUrl: shadowLogo,
@@ -82,7 +108,26 @@ export default {
         iconAnchor: [12, 41],
     })
 
-    
+    const returnVisible=(dd) => {
+     console.log(dd)
+     return visibleLines[dd]
+   }
+
+    const getColor=(index) => {
+     
+      return colors[index % colors.length]
+    }
+
+    watch(() => visibleLines, () =>{
+      alert()
+    })
+
+
+    const toggleLineVisibility = (index)  => {
+      console.log(visibleLines)
+      visibleLines.value[index] = !visibleLines.value[index]
+    }
+
 
 
     const handleMoveEnd = (event: LeafletEvent, state: 'sourceLocation' | 'destinyLocation') => {
@@ -108,7 +153,12 @@ export default {
       markerDestinyPosition,
       markerIcon,
       geojson, 
-      isLoading
+      isLoading,
+      getColor,
+      toggleLineVisibility,
+      visibleLines,
+      returnVisible,
+      features
     }
   }
 };
@@ -128,5 +178,23 @@ export default {
   align-items: center; /* centra o conteúdo do loading na vertical e horizontal */
   z-index: 450; /* coloca o loading acima do conteúdo */
 }
+
+  .legend {
+    position: absolute;
+    top: 50px;
+    right: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 99999999999999999999
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+  }
+  .legend-item div {
+    margin-right: 5px;
+  }
 
 </style>
