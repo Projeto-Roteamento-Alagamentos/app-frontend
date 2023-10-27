@@ -18,14 +18,14 @@
       <l-geo-json v-for="(feature, index) in features"
                    
                   :options-style="{color: feature.properties.color}"  
-                  :geojson="geojson"></l-geo-json>
+                  :geojson="feature"></l-geo-json>
       <l-control-zoom position="bottomright"  ></l-control-zoom>
     </l-map>
   </div>
 
   <div v-if="geojson.features.length != 0" class="legend">
     <div v-for="(feature, index) in geojson.features" :key="feature.properties.id" class="legend-item">
-      <div @click="toggleLineVisibility(index)" :style="{ backgroundColor: getColor(index), width: '20px', height: '20px' }"></div>
+      <div @click="toggleLineVisibility(index)" :style="{ backgroundColor: colors2[feature.properties.name], width: '20px', height: '20px' }"></div>
       <span>{{ feature.properties.name }}</span>
     </div> 
   </div>
@@ -71,6 +71,12 @@ export default {
     const geojson = computed(() => { return store.modelResult })
     const colors = ['#b51212', '#12b551', '#1234b5']
     let visibleLines = ref([true, true, true])
+
+    const colors2 = {
+      "proposed": "#b51212",
+      "time_no_rain":"#12b551",
+      "length_no_rain":"#1234b5"
+    }
     
 
     const features = computed(() => { 
@@ -78,9 +84,9 @@ export default {
       
         store.modelResult.features.forEach(function(valor, indice:number) { 
           if(visibleLines.value[indice]){
-            valor.properties.color = colors[indice]
+            valor.properties.color = colors2[valor.properties.name]
             final.push(valor)
-          
+            console.log(valor)
           }
               
         });
@@ -153,7 +159,8 @@ export default {
       getColor,
       toggleLineVisibility,
       visibleLines,
-      features
+      features,
+      colors2
     }
   }
 };
