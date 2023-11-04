@@ -25,7 +25,7 @@
 
   <div v-if="geojson.features.length != 0" class="legend">
     <div v-for="(feature, index) in geojson.features" :key="feature.properties.id" class="legend-item">
-      <div @click="toggleLineVisibility(index)" :style="{ backgroundColor: colors2[feature.properties.name], width: '20px', height: '20px' }"></div>
+      <div @click="toggleLineVisibility(index)" :style="{cursor:'pointer', backgroundColor: visibleLines[index] ? colors2[feature.properties.name]: 'gray', width: '20px', height: '20px' }"></div>
       <span>{{ feature.properties.name }}</span>
     </div> 
   </div>
@@ -83,12 +83,12 @@ export default {
         let final =  [];
       
         store.modelResult.features.forEach(function(valor, indice:number) { 
-          if(visibleLines.value[indice]){
+          if(visibleLines.value[Object.keys(colors2).indexOf(valor.properties.name)]){
             valor.properties.color = colors2[valor.properties.name]
             final.push(valor)
             console.log(valor)
           }
-              
+              console.log(visibleLines.value)
         });
         return final;
     })
